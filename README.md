@@ -2,5 +2,5 @@
 CTF Repo for ISTS14
 
 ##Challenge List
-o TextMangler
-o Let's Go Reversin'
+- TextMangler
+- Let's Go Reversin'
