@@ -51,10 +51,15 @@ func shiftRight(numIter int, arr []byte) []byte {
 }
 
 func shuffle(input []byte) []byte {
-    s1 := input[0:5]
-    s2 := input[5:10]
-    s3 := input[10:15]
-    s4 := input[15:20]
+    l1 := len(input)
+    l2 := l1 / 2
+    l3 := l2 / 2
+    l4 := l2 + l3
+
+    s1 := input[:l3]
+    s2 := input[l3:l2]
+    s3 := input[l2:l4]
+    s4 := input[l4:l1]
     
     //fmt.Println("1:", string(s1))
     //fmt.Println("2:", string(s2))
@@ -72,10 +77,15 @@ func shuffle(input []byte) []byte {
 }
 
 func unShuffle(input []byte) []byte {
-    s1 := input[0:5]
-    s2 := input[5:10]
-    s3 := input[10:15]
-    s4 := input[15:20]
+    l1 := len(input)
+    l2 := l1 / 2
+    l3 := l2 / 2
+    l4 := l2 + l3
+
+    s1 := input[:l3]
+    s2 := input[l3:l2]
+    s3 := input[l2:l4]
+    s4 := input[l4:l1]
     
     //fmt.Println("1:", string(s1))
     //fmt.Println("2:", string(s2))
@@ -94,19 +104,45 @@ func unShuffle(input []byte) []byte {
 
 func mangle(str string) string {
     message := []byte(str)
-    message = shuffle(message)
-    message = shiftLeft(2, message)
+    for i := 0; i < 10; i++ {
+        message = []byte(b64.StdEncoding.EncodeToString(message))
+        message = shiftLeft(5, message)
+        message = shuffle(message)
+        fmt.Printf("%d.) Len: %d\n", i, len(message))
+    }
+    //message = shuffle(message)
+    //message = shiftLeft(2, message)
     return string(message)
-    
+}
+
+func unMangle(str string) string {
+    message := []byte(str)
+    for i := 0; i < 10; i++ {
+        message = unShuffle(message)
+        message = shiftRight(5, message)
+        message, _ = b64.StdEncoding.DecodeString(string(message))
+        fmt.Printf("%d.) Len: %d\n", i, len(message))
+    }
+    //message = shuffle(message)
+    //message = shiftLeft(2, message)
+    return string(message)
 }
 
 func main() {
     //Read in ./flag.txt
     data, _ := ioutil.ReadFile("./flag.txt")
-    data = []byte(strings.TrimSpace(string(data)))
+    str := strings.TrimSpace(string(data))
+    mangled := mangle(str)
+    fmt.Println("Mangled:", mangled)
+    unmangled := unMangle(mangled)
+    fmt.Println("Unmangled:", unmangled)
 
-    dataB64 := b64.StdEncoding.EncodeToString(data)
+    //dataB64 := b64.StdEncoding.EncodeToString(data)
+    //dataB64 = b64.StdEncoding.EncodeToString([]byte(dataB64))
+    //dataB64 = b64.StdEncoding.EncodeToString([]byte(dataB64))
+    //fmt.Println("Original:", string(dataB64))
     
+    /* this will be the basis for the mangle() call later on
     for i := 0; i < 65; i++ {
         if len(dataB64) % 4 != 0 {
             fmt.Println("You can't do it")
@@ -115,11 +151,13 @@ func main() {
         dataB64 = b64.StdEncoding.EncodeToString([]byte(dataB64))
         fmt.Printf("%d.) Len: %d\n", i, len(dataB64))
     }
-
-    fmt.Println("Len:", len(dataB64))
+*/
 
     //shuffled := shuffle([]byte(dataB64))
-    //fmt.Println(string(shuffled))
+    //fmt.Println("Shuffled:", string(shuffled))
+
+    //unshuffled := unShuffle([]byte(shuffled))
+    //fmt.Println("Unshuffled:", string(unshuffled))
 
     //unShuffled := unShuffle(shuffled)
     //fmt.Println("Unshuffled:", string(unShuffled))
