@@ -1,2 +1,0 @@
-flag > b64e > mangle > b64E >mangled_string
-mangled_string > b64D > unmangle > b64D > flag

@@ -2,15 +2,14 @@ package main
 
 import (
     "fmt"
-    //"os"
-    //"io"
+    "os"
     "io/ioutil"
     "strings"
     "bytes"
     b64 "encoding/base64"
 )
 
-func shiftLeft(numIter int, arr []byte) []byte {
+func rotateLeft(numIter int, arr []byte) []byte {
     message := arr
     var temp byte
 
@@ -30,7 +29,7 @@ func shiftLeft(numIter int, arr []byte) []byte {
     return message
 }
 
-func shiftRight(numIter int, arr []byte) []byte {
+func rotateRight(numIter int, arr []byte) []byte {
     message := arr
     var temp byte
 
@@ -61,11 +60,6 @@ func shuffle(input []byte) []byte {
     s3 := input[l2:l4]
     s4 := input[l4:l1]
     
-    //fmt.Println("1:", string(s1))
-    //fmt.Println("2:", string(s2))
-    //fmt.Println("3:", string(s3))
-    //fmt.Println("4:", string(s4))
-
     var buffer bytes.Buffer
 
     buffer.Write(s3)
@@ -87,11 +81,6 @@ func unShuffle(input []byte) []byte {
     s3 := input[l2:l4]
     s4 := input[l4:l1]
     
-    //fmt.Println("1:", string(s1))
-    //fmt.Println("2:", string(s2))
-    //fmt.Println("3:", string(s3))
-    //fmt.Println("4:", string(s4))
-
     var buffer bytes.Buffer
 
     buffer.Write(s2)
@@ -104,74 +93,44 @@ func unShuffle(input []byte) []byte {
 
 func mangle(str string) string {
     message := []byte(str)
-    for i := 0; i < 10; i++ {
-        message = []byte(b64.StdEncoding.EncodeToString(message))
-        message = shiftLeft(5, message)
-        message = shuffle(message)
+    for i := 0; i < 65; i++ {
         fmt.Printf("%d.) Len: %d\n", i, len(message))
+        message = []byte(b64.StdEncoding.EncodeToString(message))
+        message = rotateLeft(5, message)
+        message = shuffle(message)
     }
-    //message = shuffle(message)
-    //message = shiftLeft(2, message)
     return string(message)
 }
 
 func unMangle(str string) string {
+    fmt.Println("Unmangling the string.")
     message := []byte(str)
-    for i := 0; i < 10; i++ {
-        message = unShuffle(message)
-        message = shiftRight(5, message)
-        message, _ = b64.StdEncoding.DecodeString(string(message))
+    for i := 65; i > 0; i-- {
         fmt.Printf("%d.) Len: %d\n", i, len(message))
+        message = unShuffle(message)
+        message = rotateRight(5, message)
+        message, _ = b64.StdEncoding.DecodeString(string(message))
     }
-    //message = shuffle(message)
-    //message = shiftLeft(2, message)
     return string(message)
 }
 
-func main() {
-    //Read in ./flag.txt
-    data, _ := ioutil.ReadFile("./flag.txt")
-    str := strings.TrimSpace(string(data))
-    mangled := mangle(str)
-    fmt.Println("Mangled:", mangled)
-    unmangled := unMangle(mangled)
-    fmt.Println("Unmangled:", unmangled)
-
-    //dataB64 := b64.StdEncoding.EncodeToString(data)
-    //dataB64 = b64.StdEncoding.EncodeToString([]byte(dataB64))
-    //dataB64 = b64.StdEncoding.EncodeToString([]byte(dataB64))
-    //fmt.Println("Original:", string(dataB64))
-    
-    /* this will be the basis for the mangle() call later on
-    for i := 0; i < 65; i++ {
-        if len(dataB64) % 4 != 0 {
-            fmt.Println("You can't do it")
-            break
-        }
-        dataB64 = b64.StdEncoding.EncodeToString([]byte(dataB64))
-        fmt.Printf("%d.) Len: %d\n", i, len(dataB64))
+func check(e error) {
+    if e != nil {
+        panic(e)
     }
-*/
+}
 
-    //shuffled := shuffle([]byte(dataB64))
-    //fmt.Println("Shuffled:", string(shuffled))
+func main() {
+    //Read in ./flag.txt, trim the spaces, and convert to string
+    data, _ := ioutil.ReadFile("./output.txt")
+    str := strings.TrimSpace(string(data))
+    
+    f, err := os.Create("flag.txt")
+    check(err)
 
-    //unshuffled := unShuffle([]byte(shuffled))
-    //fmt.Println("Unshuffled:", string(unshuffled))
+    defer f.Close()
 
-    //unShuffled := unShuffle(shuffled)
-    //fmt.Println("Unshuffled:", string(unShuffled))
-    //mangle(dataB64)
-    /*fmt.Println(mangle(dataB64))
-    fmt.Println("Placeholder")
-*/
-    /*for 1 - 1000 
-        //Base64 Encode 
-        //Mangle
-    */
-    //Write to file
-    /*
-    mangledDec, _ := b64.StdEncoding.DecodeString(mangled)
-    fmt.Println(string(mangledDec))
-*/
+    unmangled := unMangle(str)
+    _, e := f.WriteString(strings.TrimSpace(unmangled))
+    check(e)
 }
