@@ -9,9 +9,10 @@
 
 #### Web
 * Any web app challenge should fall into this category.
+    * EliteWebServer
 
 #### Mis
-* Random things
+* Random things such as injects.
 
 #### Trivia
 * 10 point questions related to hacker trivia. (Ex: Who played Acid Burn?)
