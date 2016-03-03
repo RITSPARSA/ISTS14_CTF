@@ -7,12 +7,12 @@
 * Any RE/exploitation challenge should go into that folder.
     * TextMangler
 
-#### Web
-* Any web app challenge should fall into this category.
-    * EliteWebServer
+    #### Web
+    * Any web app challenge should fall into this category.
+        * EliteWebServer
 
-#### Mis
-* Random things such as injects.
+        #### Mis
+        * Random things such as injects.
 
-#### Trivia
-* 10 point questions related to hacker trivia. (Ex: Who played Acid Burn?)
+        #### Trivia
+        * 10 point questions related to hacker trivia. (Ex: Who played Acid Burn?)
