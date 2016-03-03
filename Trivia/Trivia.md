@@ -30,3 +30,7 @@ Q. This hacker group shares an acronym with an American political party
 ##Question 7
 Q. Trinity uses this tool in the Matrix series.
     A. nmap
+
+##Question 8
+Q. Who played Acid Burn?
+    A. Angelina Jolie
