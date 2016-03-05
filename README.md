@@ -6,6 +6,7 @@
     * Firmware_Forensics
     * HTTP PCAP
     * Windows_Forensics
+    * Gardening
 
 #### Exploitation
 * Any RE/exploitation challenge should go into that folder.
