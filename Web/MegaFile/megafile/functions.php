@@ -119,7 +119,11 @@ function getFiles($conn, $reqID, $accountID)
 		if(!is_numeric($accountID) || !is_numeric($reqID))
 			return array("", "Invalid account ID");
 
+		//this is the wrong command!
 		$sql = "SELECT * FROM shares WHERE ownerid = '" . $reqID . "' AND shareid = '" . $accountID . "'";
+
+		//should be doing this check!
+		//$sql = "SELECT * FROM shares WHERE ownerid = '" . $accountID . "' AND shareid = '" . $reqID . "'";
 		$query = $conn->query($sql);
 
 		//share access not found
