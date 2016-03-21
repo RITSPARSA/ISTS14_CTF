@@ -1,27 +1,5 @@
 # ISTS14_CTF
+This repository contains the CTF challenges of ISTS 14 which occurred on March 4th - March 6th.
 
-#### Forensics
-* Any and all forensic relatable challenges should go here.
-    * TheImages
-    * Firmware_Forensics
-    * HTTP PCAP
-    * Windows_Forensics
-    * Gardening
-
-#### Exploitation
-* Any RE/exploitation challenge should go into that folder.
-    * TextMangler
-    * H@XOR
-    * Lets Go Reversin
-    * Lobster Jelly
-    * REverseMe
-
-#### Web
-* Any web app challenge should fall into this category.
-    * EliteWebServer
-
-#### Misc
-* Random things such as injects.
-
-#### Trivia
-* 10 point questions related to hacker trivia. (Ex: Who played Acid Burn?)
+### Wait, where's challenge x?
+We are currently still in the process of adding write ups to some of the challenges. Thank you for your patience!
